@@ -1,0 +1,9 @@
+[package]
+name = "pmanip"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+fltk = "1.4.35"
+image = "0.25.5"
+ini = "1.3.0"
