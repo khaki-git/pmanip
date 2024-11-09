@@ -3,7 +3,7 @@ PManip is an extremely lightweight photo editor. It is written in Rust and weigh
 It processes images with *blazingly fast* speeds and has an intuitive and understandable user interface.
 PManip has no other background processes and has no clutter.
 ### Features
-<sub>All of these are working progress!</sub>
+<sub>All of these are a work in progress!</sub>
 - Tinting
 - Blurring
 - Sharpening
