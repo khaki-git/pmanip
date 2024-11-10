@@ -2,12 +2,12 @@ use fltk::{prelude::*, *, enums::*};
 use crate::config;
 use ::image;
 use fltk::dialog::ColorMode;
-use image::Pixel;
+use image::{ImageBuffer, Pixel, Rgba};
 use crate::membuild;
 // Fully qualifying the `image` crate path.
 
 pub struct Tint {
-    pub img: ::image::RgbImage, // Use a fully qualified path to resolve ambiguity
+    pub img: ::image::ImageBuffer<Rgba<u8>, Vec<u8>>, // Use a fully qualified path to resolve ambiguity
 }
 
 pub fn invert_color(col: Color) -> Color {
@@ -31,7 +31,7 @@ fn lerp(start: f32, end: f32, t: f32) -> f32 {
 }
 
 impl Tint {
-    pub fn new(image: ::image::RgbImage) -> Self { // Again, use a fully qualified path here
+    pub fn new(image: ImageBuffer<Rgba<u8>, Vec<u8>>) -> Self { // Again, use a fully qualified path here
         let mut win = window::Window::default()
             .with_label(config::get_title("Configure Tint".to_string()).as_str())
             .with_size(500, 300);
@@ -116,14 +116,15 @@ impl Tint {
 
             for x in 0..img_reference.width() {
                 for y in 0..img_reference.height() {
-                    let pixel = img_reference.get_pixel(x, y).to_rgb();
+                    let pixel = img_reference.get_pixel(x, y).to_rgba();
                     let colours = pixel.0;
                     let new_colour = [
                         clamp(lerp(colours[0] as f32, tint_colour.0 as f32, tint_strength as f32) as i32, 0, 255) as u8,
                         clamp(lerp(colours[1] as f32, tint_colour.1 as f32, tint_strength as f32) as i32, 0, 255) as u8,
                         clamp(lerp(colours[2] as f32, tint_colour.2 as f32, tint_strength as f32) as i32, 0, 255) as u8,
+                        colours[3]
                     ];
-                    img_reference.put_pixel(x, y, image::Rgb(new_colour));
+                    img_reference.put_pixel(x, y, image::Rgba(new_colour));
                 }
             }
 
